@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com" rel="stylesheet"></script>
+    <title>Parasat Live HLS test</title>
+    <link href="videojs/js/video-js.css" rel="stylesheet">
+    <script src='videojs/js/video.min.js'></script>
+    <script src="videojs/js/videojs-http-streaming.js"></script>
+    <style>
+    #myImg1, #myImg2{
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #myImg1:hover, #myImg2:hover {opacity: 0.7;}
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    @-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+    }
+
+    /* The Close Button */
+    .close1,.close2 {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close1:hover, .close2:hover,
+    .close1:focus, .close2:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+</style>
+</head>
+<body>
+    <script>
+        class Previews {
+        constructor(title,link) {
+            this.title = title;
+            this.link = link;
+        }
+    }
+    
+    const previews = [
+        Previews('Miss Balingasag 2024','http://parasatlive.cable21.net/videos/Miss%20Balingasag%202024.mp4'), 
+        Previews('Kong Hua Alumni 2023','http://parasatlive.cable21.net/videos/Kong%20Hua%20Alumni%202023.mp4')
+    ];
+    </script>
+
+    <div class="h-20 bg-blue-600 flex justify-center items-center">
+        <p class="text-5xl text-white">Parasat LIVE</p>
+    </div>
+
+    <br>
+    <div class="flex flex-row justify-center gap-10">
+        <div class="h-[500px] w-[900px] flex justify-center items-center">
+            <video-js id="live_stream" class="video-js vjs-default-skin vjs-big-play-centered" controls liveui="true" preload="auto" autoplay="true" height="500px" poster="poster.jpg">
+				<source src="/recordings/hls_master_for_test.m3u8" type="application/x-mpegURL">
+
+				<p class='vjs-no-js'>
+					To view this video please enable JavaScript, and consider upgrading to a web browser that
+					<a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+				</p>
+			</video-js>
+        </div>
+        <div class="flex flex-col gap-5">
+            <div class="h-[225px] w-[300px]">
+                <p class="text-xl text-black">Miss Balingasag 2024</p>
+                <img id="myImg1" src="preview1.png" alt="Miss Balingasag 2024">
+            </div>
+            <div class="h-[225px] w-[300px]">
+                <p class="text-xl text-black">Kong Hua Alumni 2023</p>
+                <img id="myImg2" src="preview2.png" alt="Kong Hua Alumni 2023">
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <center>
+        <div id="myModal1" class="modal">
+            <span class="close1">&times;</span>
+            <iframe id="vid1" allow="fullscreen" class="aspect-auto h-[720px] w-[1280px]" src="http://parasatlive.cable21.net/videos/Miss%20Balingasag%202024.mp4" frameborder="0"></iframe>
+        </div>
+    </center>
+    <center>
+        <div id="myModal2" class="modal">
+            <span class="close2">&times;</span>
+            <iframe id="vid2" allow="fullscreen" class="aspect-auto h-[720px] w-[1280px]" src="http://parasatlive.cable21.net/videos/Kong%20Hua%20Alumni%202023.mp4" frameborder="0"></iframe>
+        </div>
+    </center>
+</body>
+<script>
+    var player = videojs('live_stream');
+    player.play();
+    
+    // Get the modal
+    var modal1 = document.getElementById("myModal1");
+    var modal2 = document.getElementById("myModal2");
+
+    // Get the image and insert it inside the modal
+    var img1 = document.getElementById("myImg1");
+    var img2 = document.getElementById("myImg2");
+
+    img1.onclick = function(){
+        modal1.style.display = "block";
+    }
+
+    img2.onclick = function(){
+        modal2.style.display = "block";
+    }
+
+    // Get the <span> element that closes the modal
+    var span1 = document.getElementsByClassName("close1")[0];
+    var span2 = document.getElementsByClassName("close2")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span1.onclick = function() { 
+        modal1.style.display = "none";
+        // document.getElementById('vid1').pause()
+        document.getElementsByName("vid1").pause()
+    }
+    span2.onclick = function() { 
+        modal2.style.display = "none";
+        // document.getElementById('vid2').pause()
+    }
+</script>
+</html>
